@@ -1,0 +1,17 @@
+#!/bin/bash
+
+uname="pixiys" #CHANGE THIS
+
+ssdir="$HOME/Pictures/Screenshots" #CHANGE THIS
+fname="$(hexdump -n 3 -e '4/4 "%00X"' /dev/random | awk '{print tolower($0)}').png"
+
+maim -s -c 1,0,0,0.5 --hidecursor "$ssdir/$fname"
+
+sftp -q "$uname@dont-hack.me" << EOF
+ cd "$uname"
+ put "$ssdir/$fname"
+ bye
+EOF
+
+echo "https://please.dont-hack.me/$uname/$fname" | xclip -i -sel c -f | xclip -i -sel p 
+echo "File good to go!"
